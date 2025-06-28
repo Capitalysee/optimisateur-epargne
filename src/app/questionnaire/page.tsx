@@ -6,7 +6,7 @@ import { useAuth } from '@/components/AuthProvider';
 import { FiArrowRight, FiCheck, FiCheckCircle } from 'react-icons/fi';
 
 // Définition du flow conditionnel du quiz
-export const quizFlow = [
+const quizFlow = [
   // 1. Livret A
   {
     key: 'livretA',

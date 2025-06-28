@@ -5,8 +5,36 @@ import { useAuth } from '@/components/AuthProvider';
 import Button from '../../../components/Button';
 import { FiArrowLeft, FiTarget, FiTrendingUp, FiBarChart, FiShield, FiGlobe, FiCheckCircle } from 'react-icons/fi';
 
-// Import des questions du questionnaire premium
-import { quizPremiumFlow } from '../page';
+// Types pour les questions
+interface Question {
+  key: string;
+  label: string;
+  type: 'radio' | 'checkboxes' | 'slider' | 'number';
+  options?: string[];
+  min?: number;
+  max?: number;
+  step?: number;
+  condition?: (answers: Record<string, any>) => boolean;
+  hasOther?: boolean;
+  otherKey?: string;
+}
+
+// Définition du questionnaire premium (copié depuis la page principale)
+const quizPremiumFlow: Question[] = [
+  // 🎯 Profil et stratégie
+  {
+    key: 'typeInvestisseur',
+    label: "Quel type d'investisseur te ressemble le plus ?",
+    type: 'radio',
+    options: [
+      "Sécuritaire (je privilégie la sécurité avant tout)",
+      "Équilibré (un bon compromis risque/rendement)",
+      "Dynamique (j'accepte le risque pour plus de rendement)",
+      "Opportuniste (je recherche la performance maximale)"
+    ],
+  },
+  // ... existing code ...
+];
 
 export default function ReponsesPremium() {
   const router = useRouter();
