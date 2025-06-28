@@ -20,7 +20,7 @@ interface Question {
 }
 
 // Définition du questionnaire premium avec les nouvelles questions
-export const quizPremiumFlow: Question[] = [
+const quizPremiumFlow: Question[] = [
   // 🎯 Profil et stratégie
   {
     key: 'typeInvestisseur',
