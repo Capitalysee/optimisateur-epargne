@@ -1,19 +1,21 @@
 import nodemailer from 'nodemailer';
 
-// Configuration du transporteur d'emails
+// Configuration du transporteur d'emails pour Brevo
 const transporter = nodemailer.createTransport({
-  service: 'gmail', // ou autre service
+  host: 'smtp-relay.brevo.com',
+  port: 587,
+  secure: false, // true pour 465, false pour les autres ports
   auth: {
-    user: process.env.EMAIL_USER, // ton email Gmail
-    pass: process.env.EMAIL_PASS, // mot de passe d'application Gmail
+    user: process.env.BREVO_EMAIL || process.env.EMAIL_USER, // votre email Brevo
+    pass: process.env.EMAIL_SERVICE_API_KEY, // votre clé API Brevo
   },
 });
 
 // Vérifier la configuration
 console.log('Configuration email:', {
-  user: process.env.EMAIL_USER,
+  user: process.env.BREVO_EMAIL || process.env.EMAIL_USER,
   adminEmail: process.env.ADMIN_EMAIL,
-  hasPass: !!process.env.EMAIL_PASS
+  hasApiKey: !!process.env.EMAIL_SERVICE_API_KEY
 });
 
 // Email de notification d'inscription
