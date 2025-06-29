@@ -22,4 +22,21 @@ CREATE TABLE IF NOT EXISTS quiz_premium_responses (
 );
 
 -- Créer un index sur l'email pour optimiser les requêtes
-CREATE INDEX IF NOT EXISTS idx_quiz_premium_email ON quiz_premium_responses(email); 
+CREATE INDEX IF NOT EXISTS idx_quiz_premium_email ON quiz_premium_responses(email);
+
+-- Fonction pour créer automatiquement un utilisateur dans la table users
+CREATE OR REPLACE FUNCTION public.handle_new_user()
+RETURNS TRIGGER AS $$
+BEGIN
+  INSERT INTO public.users (email, offre)
+  VALUES (NEW.email, 'gratuit')
+  ON CONFLICT (email) DO NOTHING;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- Trigger pour exécuter la fonction quand un nouvel utilisateur s'inscrit
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+CREATE TRIGGER on_auth_user_created
+  AFTER INSERT ON auth.users
+  FOR EACH ROW EXECUTE FUNCTION public.handle_new_user(); 

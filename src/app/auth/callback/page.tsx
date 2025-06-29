@@ -22,6 +22,18 @@ function AuthCallbackContent() {
         }
 
         if (data.session) {
+          // S'assurer que l'utilisateur est dans la table users
+          if (data.session.user?.email) {
+            const { error: userError } = await supabase
+              .from('users')
+              .insert([{ email: data.session.user.email, offre: 'gratuit' }])
+              .select();
+            
+            if (userError && userError.code !== '23505') { // Ignorer l'erreur de doublon
+              console.error('Erreur lors de l\'ajout à la table users:', userError);
+            }
+          }
+          
           setMessage('Compte confirmé avec succès ! Redirection vers le quiz...')
           setTimeout(() => router.push('/questionnaire'), 2000)
         } else {

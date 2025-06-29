@@ -40,17 +40,38 @@ export default function Inscription() {
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     setSignupMessage('');
-    const { error } = await supabase.auth.signUp({ 
-      email, 
-      password,
-      options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback`
+    
+    try {
+      // Inscription via Supabase Auth
+      const { data, error } = await supabase.auth.signUp({ 
+        email, 
+        password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/auth/callback`
+        }
+      });
+      
+      if (error) {
+        setSignupMessage(error.message);
+        return;
       }
-    });
-    if (error) {
-      setSignupMessage(error.message);
-    } else {
+
+      // S'assurer que l'utilisateur est dans la table users
+      if (data.user?.email) {
+        const { error: userError } = await supabase
+          .from('users')
+          .insert([{ email: data.user.email, offre: 'gratuit' }])
+          .select();
+        
+        if (userError && userError.code !== '23505') { // Ignorer l'erreur de doublon
+          console.error('Erreur lors de l\'ajout à la table users:', userError);
+        }
+      }
+
       setSignupMessage('Vérifie ta boîte mail pour confirmer ton inscription !');
+    } catch (error) {
+      console.error('Erreur lors de l\'inscription:', error);
+      setSignupMessage('Une erreur est survenue lors de l\'inscription.');
     }
   };
 
