@@ -1,12 +1,13 @@
 "use client";
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { FiCreditCard, FiLock, FiShield, FiArrowRight, FiCheck } from 'react-icons/fi';
+import { FiCreditCard, FiLock, FiShield, FiArrowRight, FiCheck, FiExternalLink } from 'react-icons/fi';
 
 export default function Paiement() {
   const router = useRouter();
   const [selectedOffer, setSelectedOffer] = useState('rapport');
   const [loading, setLoading] = useState(false);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
 
   const offers = [
     {
@@ -38,6 +39,11 @@ export default function Paiement() {
   ];
 
   const handlePayment = async () => {
+    if (!acceptedTerms) {
+      alert('Veuillez accepter les conditions générales de vente avant de procéder au paiement.');
+      return;
+    }
+
     setLoading(true);
     try {
       const res = await fetch('/api/payment', {
@@ -196,12 +202,44 @@ export default function Paiement() {
                   </div>
                 </div>
 
+                {/* Conditions Générales de Vente */}
+                <div className="mt-6 p-4 bg-white/5 rounded-lg border border-white/10">
+                  <div className="flex items-start space-x-3">
+                    <input
+                      type="checkbox"
+                      id="terms"
+                      checked={acceptedTerms}
+                      onChange={(e) => setAcceptedTerms(e.target.checked)}
+                      className="mt-1 w-4 h-4 text-purple-500 bg-white/10 border-white/20 rounded focus:ring-purple-500 focus:ring-2"
+                    />
+                    <div className="flex-1">
+                      <label htmlFor="terms" className="text-sm text-gray-300 cursor-pointer">
+                        J'accepte les{' '}
+                        <a
+                          href="/api/download/conditions-generales"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-purple-400 hover:text-purple-300 underline inline-flex items-center"
+                        >
+                          conditions générales de vente
+                          <FiExternalLink className="ml-1 text-xs" />
+                        </a>
+                        {' '}et j'accepte que mes données soient traitées conformément à la politique de confidentialité.
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
                 {/* Payment Button */}
                 <div className="mt-8 text-center">
                   <button
                     onClick={handlePayment}
-                    disabled={loading}
-                    className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-12 py-4 rounded-lg font-semibold text-lg hover:scale-105 transition-all duration-200 shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={loading || !acceptedTerms}
+                    className={`px-12 py-4 rounded-lg font-semibold text-lg transition-all duration-200 shadow-xl ${
+                      acceptedTerms && !loading
+                        ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:scale-105'
+                        : 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                    }`}
                   >
                     {loading ? (
                       <div className="flex items-center justify-center">
@@ -215,6 +253,11 @@ export default function Paiement() {
                       </>
                     )}
                   </button>
+                  {!acceptedTerms && (
+                    <p className="text-red-400 text-sm mt-2">
+                      Veuillez accepter les conditions générales de vente
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
