@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
     },
     accompagnement: {
       name: 'Rapport + Accompagnement expert',
-      price: 13995, // 139,95€ en centimes d'euros
+      price: 21500, // 215€ en centimes d'euros
     },
   };
 

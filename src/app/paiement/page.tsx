@@ -25,7 +25,7 @@ export default function Paiement() {
     {
       id: 'accompagnement',
       title: 'Rapport + Accompagnement expert',
-      price: '139,95€',
+      price: '215€',
       description: 'Rapport détaillé + session personnalisée avec un expert pour optimiser votre épargne.',
       features: [
         'Tout du rapport détaillé',
