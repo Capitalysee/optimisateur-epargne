@@ -192,13 +192,13 @@ const quizFlow = [
 const offers = [
   {
     title: 'Rapport détaillé personnalisé',
-    price: '49,99€',
+    price: '72€',
     description: 'Recevez immédiatement un rapport complet et personnalisé sur votre épargne.',
     stripePriceId: 'price_rapport',
   },
   {
     title: 'Rapport + Accompagnement expert',
-    price: '215€',
+    price: '349,50€',
     description: 'Rapport détaillé + session personnalisée avec un expert pour optimiser votre épargne.',
     stripePriceId: 'price_accompagnement',
   },

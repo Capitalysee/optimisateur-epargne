@@ -13,7 +13,7 @@ export default function Paiement() {
     {
       id: 'rapport',
       title: 'Plan détaillé personnalisé',
-      price: '49,99€',
+      price: '72€',
       description: 'Recevez immédiatement un rapport complet et personnalisé sur votre épargne.',
       features: [
         'Analyse complète de votre situation',
@@ -26,7 +26,7 @@ export default function Paiement() {
     {
       id: 'accompagnement',
       title: 'Rapport + Accompagnement expert',
-      price: '215€',
+      price: '349,50€',
       description: 'Rapport détaillé + session personnalisée avec un expert pour optimiser votre épargne.',
       features: [
         'Tout du rapport détaillé',

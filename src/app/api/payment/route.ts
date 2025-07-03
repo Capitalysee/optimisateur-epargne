@@ -10,11 +10,11 @@ export async function POST(req: NextRequest) {
   const prices = {
     rapport: {
       name: 'Plan détaillé personnalisé',
-      price: 4999, // 49,99€ en centimes d'euros
+      price: 7200, // 72€ en centimes d'euros
     },
     accompagnement: {
       name: 'Rapport + Accompagnement expert',
-      price: 21500, // 215€ en centimes d'euros
+      price: 34950, // 349,50€ en centimes d'euros
     },
   };
 
