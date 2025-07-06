@@ -42,12 +42,18 @@ export default function Inscription() {
     setSignupMessage('');
     
     try {
+      // Détecter automatiquement l'URL de production
+      const isProduction = window.location.hostname !== 'localhost';
+      const redirectUrl = isProduction 
+        ? 'https://optimisateur-epargne.vercel.app/auth/callback'
+        : `${window.location.origin}/auth/callback`;
+
       // Inscription via Supabase Auth
       const { data, error } = await supabase.auth.signUp({ 
         email, 
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/auth/callback`
+          emailRedirectTo: redirectUrl
         }
       });
       
