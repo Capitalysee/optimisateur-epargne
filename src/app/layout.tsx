@@ -2,6 +2,7 @@ import './globals.css';
 import { Poppins } from 'next/font/google';
 import ThemeProvider from '../components/ThemeProvider';
 import { AuthProvider } from '../components/AuthProvider';
+import Script from "next/script";
 
 const poppins = Poppins({ subsets: ['latin'], weight: ['400', '600', '700'] });
 
@@ -27,6 +28,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
         {/* End Google Tag Manager */}
+        {/* Google Analytics 4 */}
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=G-ZFW2P4ZRKZ`}
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-ZFW2P4ZRKZ');
+          `}
+        </Script>
+        {/* End Google Analytics 4 */}
       </head>
       <body className={poppins.className}>
         {/* Google Tag Manager (noscript) */}
